@@ -1,0 +1,1 @@
+bees app:deploy "H:\Bert\Projects\zzpmaatschap\zzpmaatschap\workspace\byerth\target\zzpmaatschap.war" -a byerth/zzpmaatschap

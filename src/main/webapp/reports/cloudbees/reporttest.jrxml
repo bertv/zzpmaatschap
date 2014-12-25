@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sample_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isFloatColumnFooter="true" uuid="21a3467f-53b3-437f-b27a-83b55fb7d03f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="56"/>
+	<property name="ireport.y" value="210"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLZZPmaatschap"/>
+	<style name="Style1"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="materialitems" uuid="e483afdc-0816-48a4-a382-a98aec13d2fb">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLZZPmaatschap"/>
+		<parameter name="p_item_id" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select * from materialitem mi
+inner join item_materialitem im on mi.id=im.materials_id]]>
+		</queryString>
+		<field name="id" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="price" class="java.lang.Double">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="quantity" class="java.lang.Double">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="type_id" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Item_id" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="materials_id" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="p_offer_id" class="java.lang.Integer" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1102]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select o.location offer_location, o.name offer_name, i.description item_desc,c.description cat_description,mi.price mi_price, mi.name mi_desc, mi.quantity mi_quantity,qu.name qu_name, wi.description wi_desc, wi.workMinutes wi_minutes, wt.value wt_value, o.address offer_address, o.BTWwage BTWloon,o.BTWadditional BTWoverig, o.email email,o.applicant aanvrager,o.nameArchitect naamarchitect, o.parkingCosts parkeerkosten, o.profitAndRisk winstrisico, o.provisionalUnforeseen postonvoorzien,o.telephoneCosts telefoonkosten,o.dateRequest datumindienen, o.dateInvoice datumfactuur, i.size aantal
+from item i
+inner join offer o on o.id=i.offer_id
+inner join item_materialitem im on i.id=im.item_id
+inner join materialitem mi on mi.id=im.materials_id
+inner join category c on i.category_id=c.id
+inner join quantityunit qu on qu.id=mi.type_id
+inner join item_workitem iw on iw.item_id=i.id
+inner join workitem wi on wi.id=iw.works_id
+inner join worktariff wt on wi.tariff_id = wt.id
+left join report rp on rp.offer_id = o.id
+left join reportparameter rpp on rpp.report_id=rp.id
+where i.offer_id=$P{p_offer_id}
+order by i.orderNumber,i.id]]>
+	</queryString>
+	<field name="offer_location" class="java.lang.String"/>
+	<field name="offer_name" class="java.lang.String"/>
+	<field name="item_desc" class="java.lang.String"/>
+	<field name="cat_description" class="java.lang.String"/>
+	<field name="mi_price" class="java.lang.Double"/>
+	<field name="mi_desc" class="java.lang.String"/>
+	<field name="mi_quantity" class="java.lang.Double"/>
+	<field name="qu_name" class="java.lang.String"/>
+	<field name="wi_desc" class="java.lang.String"/>
+	<field name="wi_minutes" class="java.lang.Double"/>
+	<field name="wt_value" class="java.lang.Double"/>
+	<field name="offer_address" class="java.lang.String"/>
+	<field name="BTWloon" class="java.lang.String"/>
+	<field name="BTWoverig" class="java.lang.String"/>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aanvrager" class="java.lang.String"/>
+	<field name="naamarchitect" class="java.lang.String"/>
+	<field name="parkeerkosten" class="java.lang.String"/>
+	<field name="winstrisico" class="java.lang.String"/>
+	<field name="postonvoorzien" class="java.lang.String"/>
+	<field name="telefoonkosten" class="java.lang.String"/>
+	<field name="datumindienen" class="java.sql.Date"/>
+	<field name="datumfactuur" class="java.lang.String"/>
+	<field name="aantal" class="java.lang.Integer"/>
+	<variable name="werkBereken" class="java.lang.Double" resetType="None">
+		<variableExpression><![CDATA[($F{wi_minutes}/60)*$F{wt_value}*$F{aantal}]]></variableExpression>
+	</variable>
+	<variable name="materiaalBereken" class="java.lang.Double" resetType="None">
+		<variableExpression><![CDATA[$F{mi_price}*$F{mi_quantity}*$F{aantal}]]></variableExpression>
+	</variable>
+	<variable name="optellingWerkMateriaal" class="java.lang.Double" resetType="Group" resetGroup="item_group" calculation="Sum">
+		<variableExpression><![CDATA[$V{materiaalBereken}+$V{werkBereken}]]></variableExpression>
+	</variable>
+	<variable name="totaalPrice" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{optellingWerkMateriaal}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0D]]></initialValueExpression>
+	</variable>
+	<group name="item_group">
+		<groupExpression><![CDATA[$F{item_desc}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement x="70" y="13" width="85" height="17" uuid="a33b2d9e-5217-4264-af0c-7bcedd56e1c3"/>
+					<textFieldExpression><![CDATA[$F{item_desc}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="250" y="12" width="109" height="18" uuid="3a49bced-4736-490c-b062-f14263b2340a"/>
+					<textFieldExpression><![CDATA[$F{cat_description}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="36">
+				<staticText>
+					<reportElement x="377" y="10" width="52" height="15" uuid="73cf311c-ed3d-4f60-a45c-08c0e27eb65f"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Subtotaal]]></text>
+				</staticText>
+				<textField pattern="¤#,###.##;¤-#,###.##">
+					<reportElement x="442" y="5" width="131" height="20" uuid="ea4d51d4-f694-4347-8b1d-c6dbf5d0715b"/>
+					<textFieldExpression><![CDATA[$V{optellingWerkMateriaal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="782">
+			<image scaleImage="RetainShape">
+				<reportElement mode="Opaque" x="10" y="759" width="23" height="23" uuid="428a39c5-ab76-4967-bf6e-78e90d2bbe4a"/>
+				<imageExpression><![CDATA["http://www.dmdklussen.nl/klussen/images/dmd-klussen-logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="49" y="772" width="293" height="10" uuid="f424cf18-0235-43c6-804f-db5044274c75"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[DMD Klussen Amsterdam telefoonnummer: 06333443434]]></text>
+			</staticText>
+		</band>
+	</background>
+	<title>
+		<band height="101">
+			<staticText>
+				<reportElement x="-22" y="29" width="595" height="39" uuid="45766378-a1c3-49cd-b2e7-28f7cc39f4d3"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Offerte]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="227" y="70" width="100" height="13" uuid="ae9e7cf9-61cd-4641-bba3-169b2ceff139"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="442" y="2" width="226" height="99" uuid="f06d80b0-26b6-44d1-8727-acccca8de78d"/>
+				<imageExpression><![CDATA["http://www.dmdklussen.nl/klussen/images/dmd-klussen-logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="55">
+			<rectangle>
+				<reportElement x="0" y="0" width="180" height="37" uuid="b0f39a28-ae6b-467d-a359-ac55309d7935"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="b3877a87-ae61-4327-a3d0-ae7c91f50de9"/>
+				<text><![CDATA[Projectnaam:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="15" width="110" height="20" uuid="e0f4a917-8720-4d78-8205-a98bf645be5b"/>
+				<textFieldExpression><![CDATA[$F{offer_location}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="70" height="15" uuid="72d18ab0-0ad5-4491-bc2b-09c60fd80d28"/>
+				<textFieldExpression><![CDATA[$F{offer_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="28" width="555" height="2" uuid="41826c37-c85e-45b3-9fe2-0d09ce037e8a"/>
+			</line>
+			<staticText>
+				<reportElement x="387" y="15" width="100" height="15" uuid="122f4ba5-a1c7-49d1-b3f6-b25a7a568ee5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totaal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="110" y="10" width="104" height="14" uuid="0cb3342f-4a18-4eae-9d5a-30f16a3dc72e"/>
+				<textFieldExpression><![CDATA[$F{mi_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="10" width="77" height="15" uuid="b995f494-b83e-4846-a51c-9c2e7f9f0458"/>
+				<textFieldExpression><![CDATA[$F{mi_quantity}*$F{aantal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,###.##;¤-#,###.##">
+				<reportElement x="442" y="11" width="113" height="13" uuid="e5e21157-4574-4c44-b2a8-ec8cb9af4b14"/>
+				<textFieldExpression><![CDATA[$V{materiaalBereken}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="11" width="36" height="13" uuid="c507f947-97fc-4019-929e-d037bd92050c"/>
+				<textFieldExpression><![CDATA[$F{qu_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="34" width="104" height="16" uuid="759dd75a-50a9-4fab-9949-9ca3e8a7ab89"/>
+				<textFieldExpression><![CDATA[$F{wi_desc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="250" y="34" width="50" height="16" uuid="5abdeaee-a998-4212-b5a7-fa093703312c"/>
+				<textFieldExpression><![CDATA[$F{wi_minutes}*$F{aantal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="34" width="42" height="16" uuid="ed77a2bf-0af6-4c47-99ff-35315ae5b0b8"/>
+				<text><![CDATA[minuten]]></text>
+			</staticText>
+			<textField pattern="¤#,###.##;¤-#,###.##">
+				<reportElement x="442" y="34" width="100" height="18" uuid="cad7603f-e868-4d6e-93f3-bfe1d1c0c290"/>
+				<textFieldExpression><![CDATA[$V{werkBereken}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="377" y="9" width="65" height="20" uuid="8f114e7a-e6ad-4d69-89a3-df4277fa7bb6"/>
+				<textFieldExpression><![CDATA[$F{mi_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="35" width="64" height="20" uuid="00904291-90a3-413a-8f28-9cd443673cee"/>
+				<textFieldExpression><![CDATA[$F{wt_value}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="71"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43">
+			<textField>
+				<reportElement x="240" y="0" width="30" height="15" uuid="73b6467f-3dc6-4730-a903-457d7b548bf1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="290" y="0" width="30" height="11" uuid="33046a6c-2d69-44f5-8fc9-51b6c3b48308"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="0" width="30" height="15" uuid="0475463a-5085-4a92-9ba1-6743a524dd52"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Pagina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="0" width="30" height="15" uuid="937d6be2-ff88-42ed-a815-4649111c960b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[van]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="50">
+			<textField pattern="¤#,###.##;¤-#,###.##">
+				<reportElement x="442" y="7" width="100" height="19" uuid="3c260f7d-834b-46c0-b76c-2291bbe2747c"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$V{totaalPrice}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="7" width="555" height="1" uuid="c7f66b1e-ff8c-4cb9-ab48-2f87b4f1c4c1"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="10" width="100" height="20" uuid="b1a32c64-6ba2-4ff6-9636-63cf6f2d53ea"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totaal]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="56">
+			<staticText>
+				<reportElement x="279" y="27" width="100" height="20" uuid="2c055dcf-4b20-4f55-a357-9db9edeb510a"/>
+				<text><![CDATA[Geen data beschikbaar]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

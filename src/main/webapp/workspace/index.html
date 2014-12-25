@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ng-grid workbench</title>
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../ng-grid.css" />
+    <script type="text/javascript" src="largeLoad.js"></script>
+    <script type="text/javascript" src="largeTestData.js"></script>
+    <script type="text/javascript" src="../lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../lib/jquery-ui-1.9.1.custom.min.js"></script>
+    <script type="text/javascript" src="../lib/angular.js"></script>
+    <script type="text/javascript" src="../lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../lib/jquery-ui-1.9.1.custom.min.js"></script>
+    <script type="text/javascript" src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../build/ng-grid.debug.js"></script>
+	  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
+ 
+	
+    <script type="text/javascript" src="main.js"></script>
+	 <script src="ngAutocomplete.js"></script>
+  
+    <script>
+        angular.module('myApp',['ngGrid','ui.bootstrap']);
+		
+    </script>
+    <style type="text/css">
+        .ngRow.selected {
+          color: #ffffff;
+          font-weight: bold;
+          background-color: #76b617;
+          background-image: -webkit-linear-gradient(top, #76b617, #638911);
+          background-image: -moz-linear-gradient(top, #76b617, #638911);
+          background-image: -o-linear-gradient(top, #76b617, #638911);
+          background-image: -ms-linear-gradient(top, #76b617, #638911);
+          background-image: linear-gradient(top, #76b617, #638911);
+          -webkit-border-radius: 4px 4px 4px 4px;
+          -moz-border-radius: 4px 4px 4px 4px;
+          border-radius: 4px 4px 4px 4px;
+        }
+    </style>
+</head>
+    <body ng-app="myApp"  >
+       
+		
+		<div class='container-fluid' ng-controller="TypeaheadCtrl">
+    <pre>Model: {{selected| json}}</pre>
+    <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8">
+</div>
+		
+    </body>
+</html>

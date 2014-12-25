@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 4.1.3-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sample_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLZZPmaatschap"/>
+	<style name="Style1"/>
+	<parameter name="offer_id" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select * from offer o
+inner join item i on o.id=i.offer_id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="offer_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band height="110">
+			<image>
+				<reportElement x="340" y="6" width="226" height="99"/>
+				<imageExpression><![CDATA["H:/Bert/Projects/zzpmaatschap/zzpmaatschap/workspace/zzpmaatschap/src/main/webapp/resources/gfx/logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="-20" y="51" width="595" height="39"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Offerte voorbeeld]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50">
+			<staticText>
+				<reportElement x="-1" y="14" width="291" height="20"/>
+				<textElement/>
+				<text><![CDATA[Offerte project naam:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="14" width="70" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{offer_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="215" y="10" width="70" height="20"/>
+				<textElement/>
+				<text><![CDATA[Offerte naam]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="215" y="0" width="70" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

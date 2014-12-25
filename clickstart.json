@@ -1,0 +1,29 @@
+{
+    "id": "sauce-jboss-db-example",
+    "name": "Java EE 6 Web Profile with Sauce support",
+    "source": "github",
+    "description" : "A full Java EE 6 Web Profile application, with a database and continuous deployment and Sauce support",
+    "doc-url" : "https://github.com/CloudBees-community/sauce-jboss-clickstart/blob/master/readme.md",
+    "icon" : "https://d3ko533tu1ozfq.cloudfront.net/clickstart/sauce_labs.png",
+    "app-package" : "https://repository-saucelabs.forge.cloudbees.com/release/org/jboss/tools/examples/sauce-jboss-db-example/1.0.0/sauce-jboss-db-example-1.0.0.war",
+    "app-package-type": "war",
+    "supported-by" : "cloudbees",     
+
+    "runtime": {
+        "type": "jboss"
+    },
+    "databases": [
+        {
+            "type": "mysql",
+            "alias": "ExampleDS"
+        }
+    ],
+    "build-with-jenkins": {
+        "plugins" : ["git", "sauce-ondemand", "jacoco"],
+        "template": {
+            "type": "https://raw.github.com/rossrowe/sauce-jboss-clickstart/master/jenkins_template.xml",
+            "options": {
+            }
+        }
+    }
+}

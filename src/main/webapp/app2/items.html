@@ -1,0 +1,393 @@
+<!DOCTYPE HTML>
+<!--
+	ZeroFour 2.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      ng-app="zzp">
+<head>
+
+    <title>ZZP maatschap</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-resource.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-cookies.js"></script>
+
+    <script src="js/angularjs/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="js/validate.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/stringsimilarity.js"></script>
+    <script src="items.js"></script>
+    <script src="accordion.js"></script>
+
+    <script src="pricelistsearch.js"></script>
+    <link href="css/bootstrap-twitter.css" rel="stylesheet">
+
+    <link
+            href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800"
+            rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-panels.min.js"></script>
+    <link rel="stylesheet" href="css/zzp.css"/>
+    <!-- 	 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+-->
+    <noscript>
+
+        <link rel="stylesheet" href="css/skel-noscript.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/style-desktop.css"/>
+    </noscript>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="css/ie9.css"/><![endif]-->
+    <!--[if lte IE 8]>
+    <script src="js/html5shiv.js"></script>
+    <link rel="stylesheet" href="css/ie8.css"/><![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" href="css/ie7.css"/><![endif]-->
+
+
+</head>
+
+<body>
+<!-- Header Wrapper -->
+<div id="header-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="12u">
+
+                <!-- Header -->
+                <header id="header">
+                    <div class="inner">
+
+                        <!-- Logo -->
+                        <h1><a href="#" id="logo">ZZP maatschap</a></h1>
+
+                        <form id="loginout">
+                            <!-- Nav -->
+                            <nav id="nav">
+                                <ul>
+                                    <li class="current_page_item"><a href="main.html">Home</a></li>
+                                    <li>
+                                        <span>Menu</span>
+                                        <ul>
+
+                                            <li><a href="offer.html">Offerte maken</a></li>
+                                            <li><a href="uploadpricelist.html">Prijslijst</a></li>
+                                            <li>
+                                                <span>Stappen</span>
+                                                <ul>
+                                                    <li><a href="offer.html">Stap 1: Offerte maken</a></li>
+                                                    <li><a href="items.html">Stap 2: Offerte regels</a></li>
+                                                    <li><a href="generate.html">Stap 3: Genereren</a></li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="conditions.html">Tarieven</a></li>
+
+
+                                    <li><a href="register.html">Aanmelden</a></li>
+                                    <li><a href="account.html">Mijn account</a></li>
+
+                                    <li>
+                                        <a href="../resteasy/auth/logout">Uitloggen</a>
+
+                                    </li>
+                                </ul>
+
+                            </nav>
+                        </form>
+                    </div>
+                </header>
+
+
+                <!--
+                <div id="banner">
+                        <h2><strong>Welkom bij ZZP maatschap</strong> Offerte systeem<br />
+                        </h2>
+                        <p style="width:100%; text-align:center">Makkelijk en eenvoudig offertes maken?</p>
+                        <a href="#" class="button button-big button-icon button-icon-check">Bestel nu!</a>
+                    </div>
+                -->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Wrapper -->
+<div id="main-wrapper">
+    <div class="main-wrapper-style1">
+        <div class="inner">
+
+            <!-- Feature 1 -->
+            <section class="container box-feature1">
+                <div class="row">
+                    <div class="12u">
+                        <header class="first major">
+
+                            <span class="byline"> <a href="offer.html">Offertes</a> < <b>Offerte regels</b>  > <a
+                                    href="generate.html">Genereren</a></span>
+                        </header>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+            <div class="container" ng-controller="MainContrl">
+
+
+                {{getSelectedOffer()==undefined?'geen offerte geselecteerd':''}}
+                <div ng-controller="ItemContrl" ng-init="oneAtATime=true" ng-show="getSelectedOffer()!=null">
+                    <script type="text/ng-template" id="itemDeleteConfirmation.html">
+                        <div class="modal-header">
+                            <h4>Keuze</h4>
+                        </div>
+                        <div class="modal-body">
+                            Weet u zeker dat u de offerte regel wilt verwijderen?
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-click="ok()">Ja</button>
+                            <button class="btn btn-warning" ng-click="cancel()">Nee</button>
+                        </div>
+                    </script>
+
+
+                    <script type="text/ng-template" id="myModalContent.html">
+                        <div class="modal-header">
+                            <h4>Keuze</h4>
+                        </div>
+                        <div class="modal-body">
+                            De categorie bestaat nog niet.
+                            Wil je een nieuwe category maken?
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-click="ok()">Ja</button>
+                            <button class="btn btn-warning" ng-click="cancel()">Nee</button>
+                        </div>
+                    </script>
+
+                    <script type="text/ng-template" id="pricelistsearch">
+                        <div class="modal-header">
+                            <h4>Zoeken</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div ng-include="'pricelistsearch.html'"></div>
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <button class="btn btn-warning" ng-click="cancelPriceList()">Annuleer</button>
+                        </div>
+                    </script>
+
+
+                    <tabset>
+                        <tab heading="{{getSelectedOffer().name}}" ng-show="getSelectedOffer()!=undefined">
+
+
+                            <div class="table-responsive" style="{{'opacity: '+(waiting==true?0.4:1)+'; filter: alpha(opacity='+(waiting==true?40:1)+');'}}">
+                                <input type="checkbox" ng-model="showComment"/>Toon opmerking kolom
+                                <table class="table table-bordered table-condensed" ng-init="load();">
+                                    <thead>
+                                    <tr>
+                                        <th>Bewerkingen</th>
+                                        <th>Omschrijving
+                                        </th>
+                                        <th>Categorie
+                                        </th>
+                                        <th>Aantal
+                                        </th>
+                                        <th>Eenheid
+                                        </th>
+                                        <th>Norm tijd
+                                        </th>
+                                        <th>Tarief
+                                        </th>
+                                        <th>Materiaal
+                                        </th>
+                                        <th ng-show="showComment">Opmerking
+                                        </th>
+                                        <th>Totaal
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form id="itemForm1" name="itemForm1">
+                                        <tr ng-include="'itemadd.html'" ng-repeat="item in items">
+
+                                        </tr>
+                                    </form>
+                                    <tr ng-show="items.length>0">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td ng-show="showComment"></td>
+                                        <td></td>
+
+                                        <td>
+                                            <div class="itemlinetotal" id="totals"> {{calculateTotals(items) |
+                                                currency:"€"}}
+                                                {{ (calculateTotalsWorkHours(items))}}:{{
+                                                calculateTotalsWork(items)%60|numberFixedLen:2}} uur
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="items.length>5">
+                                        <th>Bewerkingen</th>
+                                        <th>Omschrijving
+                                        </th>
+                                        <th>Categorie
+                                        </th>
+                                        <th>Aantal
+                                        </th>
+                                        <th>Eenheid
+                                        </th>
+                                        <th>Norm tijd
+                                        </th>
+                                        <th>Tarief
+                                        </th>
+                                        <th>Materiaal
+                                        </th>
+                                        <th ng-show="showComment">Opmerking
+                                        </th>
+
+                                        <th>Totaal
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                    <form id="itemForm2" name="itemForm2">
+                                        <tfoot>
+
+                                        <tr ng-include="'itemadd.html'" ng-repeat="item in itemnew" ng-init="itemtype='new'">
+                                        </tr>
+
+                                        </tfoot>
+                                    </form>
+                                </table>
+                            </div>
+                            <div class="table-responsive-after" ng-show="waiting">Even geduld a.u.b.</div>
+
+                        </tab>
+                    </tabset>
+                    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+                        {{alert.msg}}
+                    </alert>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer Wrapper -->
+<div id="footer-wrapper">
+    <footer id="footer" class="container">
+        <div class="row">
+            <div class="3u">
+
+                <!-- Links -->
+                <section>
+                    <h2>Quick links</h2>
+                    <ul class="style2">
+                        <li><a href="admin.html">Administratie instellingen</a></li>
+                        <li><a href="examples.html">Voorbeelden van bestanden</a></li>
+                        <li><a href="uploadpricelist.html">Materiaal prijslijst importeren</a></li>
+
+                    </ul>
+                </section>
+
+            </div>
+            <div class="3u">
+
+
+                <!-- Links -->
+                <section>
+                    <h2>Externe links</h2>
+                    <ul class="style2">
+                        <li><a href="#">STABU</a></li>
+                        <li><a href="#">Site 1</a></li>
+
+                    </ul>
+                </section>
+
+            </div>
+            <div class="6u">
+
+
+                <!-- Contact -->
+                <section>
+                    <h2>Contact</h2>
+
+                    <div>
+                        <div class="row">
+                            <div class="6u">
+                                <dl class="contact">
+                                    <dt>DMD klussen</dt>
+                                    <dd>
+                                        Roode Wildemanweg 43
+                                        1521 PZ Wormerveer, Nederland
+                                        Telefoonnummer: 0758795568
+                                    </dd>
+                                    <dt>WWW</dt>
+                                    <dd><a href="http://www.zzpmaatschap.nl">www.zzpmaatschap.nl</a></dd>
+                                    <dt>Email</dt>
+                                    <dd><a href="mailto:info%20-at-%20dmdklussen.nl">info@dmdklussen.nl</a></dd>
+                                </dl>
+                            </div>
+                            <div class="6u">
+                                <dl class="contact">
+                                    <dt>Support</dt>
+                                    <dd>
+                                        Dmd Support
+                                        Martin Zinhagel
+                                        Amsterdamsevaart 22A
+                                        2032 EB Haarlem
+                                    </dd>
+                                    <dt>Telefoon</dt>
+                                    <dd>+31 645 624 747</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="12u">
+                <div id="copyright">
+                    © 2013 Bert Verhelst. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>

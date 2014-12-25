@@ -1,0 +1,14 @@
+<div class="accordion-group">
+    <div class="accordion-heading" >
+        <div accordion-transclude="heading"></div>
+        <a class="accordion-toggle" ng-click="isOpen = !isOpen" >
+            <button class="btn btn-small"  ng-show="!isOpen">open</button>
+            <button class="btn btn-small"  ng-show="isOpen">sluit</button>
+            <i class="pull-right"
+               ng-class="{'icon-chevron-down': isOpen, 'icon-chevron-right': !isOpen}"></i>
+
+        </a>
+    </div>
+    <div class="accordion-body" collapse="!isOpen">
+        <div class="accordion-inner" ng-transclude></div>  </div>
+</div>

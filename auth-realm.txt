@@ -1,0 +1,12 @@
+<auth-realm classname="com.sun.enterprise.security.ee.auth.realm.jdbc.JDBCRealm" name="authentication-realm">
+  <property name="jaas-context" value="jdbcRealm"/>
+  <property name="password-column" value="password"/>
+  <property name="datasource-jndi" value="jdbc/mydb"/>
+  <property name="group-table" value="cb_groups"/>
+  <property name="user-table" value="cb_users"/>
+  <property name="group-name-column" value="groupname"/>
+  <property name="digestrealm-password-enc-algorithm" value="SHA-256"/>
+  <property name="digest-algorithm" value="SHA-256"/>
+  <property name="encoding" value="Base64"/>
+  <property name="user-name-column" value="username"/>
+</auth-realm>

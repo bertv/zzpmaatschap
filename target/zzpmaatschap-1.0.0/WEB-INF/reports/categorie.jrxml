@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sample_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isFloatColumnFooter="true" uuid="8867e945-6305-4cfc-afae-2476e72221a8">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="8"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLZZPmaatschap"/>
+	<style name="Style1"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="p_offer_id" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_test" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["test"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select o.location offer_location, o.name offer_name, i.description item_desc,c.description cat_description,mi.price mi_price, mi.name mi_desc, mi.quantity mi_quantity,qu.name qu_name, wi.description wi_desc, wi.workMinutes wi_minutes, wt.value wt_value from item i
+inner join offer o on o.id=i.offer_id
+inner join item_materialitem im on i.id=im.item_id
+inner join materialitem mi on mi.id=im.materials_id
+inner join category c on i.category_id=c.id
+inner join quantityunit qu on qu.id=mi.type_id
+inner join item_workitem iw on iw.item_id=i.id
+inner join workitem wi on wi.id=iw.works_id
+inner join worktariff wt on wi.tariff_id = wt.id
+where i.offer_id=$P{p_offer_id}
+order by i.orderNumber,i.id]]>
+	</queryString>
+	<field name="offer_location" class="java.lang.String"/>
+	<field name="offer_name" class="java.lang.String"/>
+	<field name="item_desc" class="java.lang.String"/>
+	<field name="cat_description" class="java.lang.String"/>
+	<field name="mi_price" class="java.lang.Double"/>
+	<field name="mi_desc" class="java.lang.String"/>
+	<field name="mi_quantity" class="java.lang.Double"/>
+	<field name="qu_name" class="java.lang.String"/>
+	<field name="wi_desc" class="java.lang.String"/>
+	<field name="wi_minutes" class="java.lang.Double"/>
+	<field name="wt_value" class="java.lang.Double"/>
+	<variable name="categorie_optelling" class="java.lang.Double" resetType="Group" resetGroup="categorie" calculation="Sum">
+		<variableExpression><![CDATA[$F{mi_price}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="categorie_optellingTotaal" class="java.lang.Double" incrementType="Group" incrementGroup="categorie" calculation="Sum">
+		<variableExpression><![CDATA[$V{categorie_optelling}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="categorie" class="java.lang.String"/>
+	<group name="categorie">
+		<groupExpression><![CDATA[$F{cat_description}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<textField>
+					<reportElement x="15" y="11" width="100" height="20" uuid="95fdfe59-3bf3-4c5e-aecf-f1aef317a6ed"/>
+					<textFieldExpression><![CDATA[$F{cat_description}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="33">
+				<staticText>
+					<reportElement x="15" y="0" width="100" height="20" uuid="9a056b0a-2fd7-444b-b5f5-5bc4ec69de16"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Subtotaal]]></text>
+				</staticText>
+				<textField evaluationTime="Auto">
+					<reportElement x="285" y="0" width="118" height="20" uuid="3d4547aa-74e3-4e10-8ae0-d82021babfa7"/>
+					<textFieldExpression><![CDATA[$V{categorie_optelling}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="403" y="13" width="150" height="20" uuid="7d7f4d5c-0416-4b0a-87a1-185b232872bd"/>
+					<textFieldExpression><![CDATA[$V{categorie_optellingTotaal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="101">
+			<image>
+				<reportElement x="456" y="0" width="226" height="99" uuid="c1aca26c-b3ab-49b3-ae31-59307160ada5"/>
+				<imageExpression><![CDATA["http://www.dmdklussen.nl/klussen/images/dmd-klussen-logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="-22" y="29" width="595" height="39" uuid="b4fd2f37-2c2c-4c9c-a245-361cefb070fa"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Offerte voorbeeld]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="68" width="127" height="20" uuid="9b14daa6-81b4-4880-8a67-749c11dbb414"/>
+				<text><![CDATA[Overzicht van alle offertes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="23">
+			<rectangle>
+				<reportElement x="0" y="0" width="197" height="20" uuid="5e45a3a5-a7f7-4a27-982b-0d28c4d194ca"/>
+			</rectangle>
+			<textField>
+				<reportElement x="70" y="-1" width="127" height="17" uuid="b3bb3625-e733-410c-8743-f2e6966effaa"/>
+				<textFieldExpression><![CDATA[$P{p_offer_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="15dd164e-1a3e-413b-9b4c-9931c93ab42c"/>
+				<text><![CDATA[Offerte id:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="215" y="10" width="70" height="15" uuid="3e3fdca4-74ab-4507-a1af-d08da0ac1b8d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Offerte naam:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="28" width="555" height="2" uuid="6a495b94-c74f-49c7-a166-43b86d52fab6"/>
+			</line>
+			<textField>
+				<reportElement x="285" y="10" width="100" height="20" uuid="84298779-b67c-4e26-88d3-08b64be5fb55"/>
+				<textFieldExpression><![CDATA[$F{offer_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement x="288" y="20" width="100" height="20" uuid="435c8df7-cc40-4050-b450-752d3d61c951"/>
+				<textFieldExpression><![CDATA[$F{mi_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="20" width="100" height="20" uuid="8c8b1c6f-eb1a-478a-b4b0-8fafd7d8cf4a"/>
+				<textFieldExpression><![CDATA[$F{mi_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="20" width="100" height="20" uuid="65516de8-ca75-44a3-9d6e-aa431bbb656d"/>
+				<textFieldExpression><![CDATA[$F{item_desc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23">
+			<line>
+				<reportElement x="0" y="1" width="555" height="1" uuid="af91bb1c-b33f-4dfb-aef9-a026d985eefd"/>
+			</line>
+			<staticText>
+				<reportElement x="15" y="0" width="100" height="20" uuid="4cbf36f6-c274-428d-afcf-d68a8919960d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totaal]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="288" y="3" width="230" height="20" uuid="c54c2488-576e-4256-a4ec-9e55a008d2c6"/>
+				<textFieldExpression><![CDATA[$V{categorie_optellingTotaal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<noData>
+		<band height="107">
+			<staticText>
+				<reportElement x="279" y="27" width="100" height="20" uuid="291ee52d-0be7-4bbe-b026-bc5daf68aa9b"/>
+				<text><![CDATA[Geen data beschikbaar]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

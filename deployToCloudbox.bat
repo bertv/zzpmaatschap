@@ -1,0 +1,1 @@
+pscp -pw mign8uxm C:\temp\git\byerth\target\zzpmaatschap-1.0.0.war root@159.253.3.10:/usr/tmp

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<maven2-moduleset>
+    <logRotator>
+        <daysToKeep>60</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>20</artifactNumToKeep>
+    </logRotator>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <nectar.plugins.rbac.groups.JobProxyGroupContainer/>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>${repositoryUrl}</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches class="java.util.Collections$SingletonList">
+            <element class="hudson.plugins.git.BranchSpec">
+                <name>**</name>
+            </element>
+        </branches>
+        <disableSubmodules>false</disableSubmodules>
+        <recursiveSubmodules>false</recursiveSubmodules>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <authorOrCommitter>false</authorOrCommitter>
+        <clean>false</clean>
+        <wipeOutWorkspace>false</wipeOutWorkspace>
+        <pruneBranches>false</pruneBranches>
+        <remotePoll>false</remotePoll>
+        <ignoreNotifyCommit>false</ignoreNotifyCommit>
+        <buildChooser class="hudson.plugins.git.util.DefaultBuildChooser"/>
+        <gitTool>Default</gitTool>
+        <submoduleCfg class="java.util.Collections$EmptyList"/>
+        <skipTag>false</skipTag>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers class="vector">
+        <com.cloudbees.jenkins.forge.ForgePushTrigger>
+            <spec></spec>
+        </com.cloudbees.jenkins.forge.ForgePushTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <rootModule>
+        <groupId>com.cloudbees</groupId>
+        <artifactId>java-rest-backbone</artifactId>
+    </rootModule>
+    <goals>-Parq-jbossas-managed install</goals>
+    <aggregatorStyleBuild>true</aggregatorStyleBuild>
+    <incrementalBuild>false</incrementalBuild>
+    <usePrivateRepository>false</usePrivateRepository>
+    <perModuleEmail>true</perModuleEmail>
+    <ignoreUpstremChanges>false</ignoreUpstremChanges>
+    <archivingDisabled>false</archivingDisabled>
+    <resolveDependencies>false</resolveDependencies>
+    <processPlugins>false</processPlugins>
+    <mavenValidationLevel>-1</mavenValidationLevel>
+    <runHeadless>false</runHeadless>
+    <reporters/>
+    <publishers>
+        <hudson.maven.MavenTestDataPublisher>
+            <testDataPublishers>
+                <hudson.plugins.sauce__ondemand.SauceOnDemandReportPublisher/>
+            </testDataPublishers>
+        </hudson.maven.MavenTestDataPublisher>
+        <hudson.plugins.sauce__ondemand.SauceOnDemandMavenTestPublisher>
+            <testDataPublishers/>
+        </hudson.plugins.sauce__ondemand.SauceOnDemandMavenTestPublisher>
+        <hudson.plugins.jacoco.JacocoPublisher>
+            <healthReports>
+                <minClass>0</minClass>
+                <maxClass>0</maxClass>
+                <minMethod>0</minMethod>
+                <maxMethod>0</maxMethod>
+                <minLine>0</minLine>
+                <maxLine>0</maxLine>
+                <minBranch>0</minBranch>
+                <maxBranch>0</maxBranch>
+                <minInstruction>0</minInstruction>
+                <maxInstruction>0</maxInstruction>
+                <minComplexity>0</minComplexity>
+                <maxComplexity>0</maxComplexity>
+            </healthReports>
+            <execPattern>**/**.exec</execPattern>
+            <classPattern>**/classes</classPattern>
+            <sourcePattern>**/src/main/java</sourcePattern>
+        </hudson.plugins.jacoco.JacocoPublisher>
+        <com.cloudbees.plugins.deployer.DeployPublisher>
+            <deployIfUnstable>false</deployIfUnstable>
+            <configuration>
+                <user>(jenkins)</user>
+                <account>${account}</account>
+                <deployables>
+                    <com.cloudbees.plugins.deployer.deployables.WildcardMatchingDeployable>
+                        <applicationId>${applicationName}</applicationId>
+                        <applicationConfig/>
+                        <apiEndPoint>https://api.cloudbees.com/api</apiEndPoint>
+                        <filePattern>**/*.war</filePattern>
+                    </com.cloudbees.plugins.deployer.deployables.WildcardMatchingDeployable>
+                </deployables>
+            </configuration>
+        </com.cloudbees.plugins.deployer.DeployPublisher>
+    </publishers>
+    <buildWrappers>
+        <hudson.plugins.sauce__ondemand.SauceOnDemandBuildWrapper>
+            <enableSauceConnect>true</enableSauceConnect>
+            <seleniumHost>localhost</seleniumHost>
+            <seleniumPort>4445</seleniumPort>
+            <seleniumInformation>
+                <webDriverBrowsers>
+                    <string>Windows 2008chrome</string>
+                </webDriverBrowsers>
+                <isWebDriver>true</isWebDriver>
+            </seleniumInformation>
+            <webDriverBrowsers reference="../seleniumInformation/webDriverBrowsers"/>
+            <launchSauceConnectOnSlave>false</launchSauceConnectOnSlave>
+        </hudson.plugins.sauce__ondemand.SauceOnDemandBuildWrapper>
+    </buildWrappers>
+    <prebuilders/>
+    <postbuilders/>
+</maven2-moduleset>

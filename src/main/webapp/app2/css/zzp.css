@@ -1,0 +1,118 @@
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]
+{padding-bottom:0px;padding-top: 0px;color:black;}
+select {color:black;height:auto;padding-bottom:0px;padding-top: 0px;}
+
+#bewerkingbuttons {
+    display:flex;
+}
+
+.category,#cattext{
+    max-width: 130px;
+}
+.itemlinetotal,.itemlinetotal#total,.itemlinetotal#totals{
+    color:black;
+    min-width: 220px;
+}
+.itemlinetotal#totals{
+    font-weight:bold;
+}
+
+.itemlinetariff#tariff{
+    min-width:90px;
+}
+.itemdescription{
+    display:flex;
+}
+.itemtextshort#description{
+    width:200px;
+}
+.itemtextshort#category{
+    width:130px;
+}
+.itemtextshort{
+    overflow: hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+
+}
+
+.itemmaterialtype,#commenttext,select{
+    max-width:70px;
+}
+
+.itemcomment{
+    max-width: 80px;
+}
+.itemterugreken,#terugrekenwaarde{
+    max-width: 70px;
+    float:left;
+}
+
+
+@-webkit-keyframes change {
+    from {
+        opacity: 0;
+        color: red;
+    }
+    20% {
+        opacity: .5;
+        color: red;
+    }
+    40% {
+        opacity: .15;
+        color: red;    	    }
+    60% {
+        opacity: .75;
+        color: red;
+    }
+    80% {
+        opacity: .3;
+        color: red;
+    }
+    to {
+        opacity: 1;
+
+    }
+}
+@keyframes change {
+    from {
+        opacity: 0;
+        height: 0px;
+    }
+    20% {
+        opacity: .5;
+    }
+    40% {
+        opacity: .15;
+        color: red;    	    }
+    60% {
+        opacity: .75;
+    }
+    80% {
+        opacity: .3;
+    }
+    to {
+        opacity: 1;
+        height: 30px;
+    }
+}
+
+.admincompanyvalue {
+
+    max-width: 150px;
+}
+.itemsize{
+    -webkit-animation: change 600ms cubic-bezier(0.390, 0.575, 0.565, 1.000);
+    animation: change 600ms cubic-bezier(0.390, 0.575, 0.565, 1.000);
+
+}
+
+.table-responsive-after {
+    content:'Even geduld a.u.b.' ;
+    bottom: 100;
+    color:red;
+    left: 100;
+    position: absolute;
+    right: 100;
+    top: 0;
+}

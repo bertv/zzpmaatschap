@@ -1,0 +1,118 @@
+<td>
+       <div id="bewerkingbuttons">
+           <button type="button" class="btn btn-mini" ng-click="up(item);" ng-disabled="!isValid(item)"
+                   ng-show="itemtype!='new'">
+
+               <span class="icon-circle-arrow-up"></span>
+           </button>
+        <button type="button" class="btn btn-mini {{isDirty(item)?'btn-warning':''}}" ng-click="merge(item);" ng-disabled="!isValid(item)"
+                ng-show="(getEditMode(item)==true || isDirty(item)) && itemtype!='new'" >
+
+            <span class="icon-ok"></span>
+        </button>
+        <button type="button" class="btn btn-mini" ng-click="merge(item);" ng-disabled="!isValid(item)"
+                ng-show="itemtype=='new'">
+
+            <span class="icon-ok"></span>
+        </button>
+
+        <button type="button" class="btn btn-mini" ng-click="remove(item);" ng-hide="itemtype=='new'">
+
+            <span class="icon-remove"></span>
+        </button>
+        <button type="button" class="btn btn-mini" ng-click="openPriceListSearch(item);"
+                ng-show="getEditMode(item)==true || itemtype=='new'">
+            <span class="icon-barcode"></span>
+        </button>
+       </div>
+</td>
+<td>
+    <div class="col-md-6" ng-show="getEditMode(item)==true || itemtype=='new'">
+        <p class="itemdescription"><input type="text" name="desc" required
+                                      ng-model="item.description"
+                                      ng-change="setDirty(item)"
+                                      placeholder="nieuwe of bestaande omschrijving"
+                                      typeahead="aitem.description for aitem in allitems | filter:$viewValue | limitTo:8 | orderBy:'popularity':true">
+                                                 <span class="input-group-btn">
+                                                <button type="button" class="btn btn-mini" ng-click="copy(item);"
+                                                        ng-disabled="!alreadyExistingWithReturn(item, allitems)">
+                                                    <span class="icon-book"></span>
+                                                </button>
+                                                </span>
+        </p>
+    </div>
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);" class="itemtextshort" id="description" title="{{item.description}}">{{item.description}}</div>
+</td>
+<td > <div class="category"><input id="cattext" title="{{item.category.description}}" type="text" name="cat" required ui-validate="dd()"
+
+
+           ng-model="item.category.description"
+           placeholder="nieuwe of bestaande categorie"
+           typeahead="category.description for category in categories | filter:{description:$viewValue} | limitTo:8"
+           ng-show="getEditMode(item)==true || itemtype=='new'" ng-change="setDirty(item)">
+
+    <div class="itemtextshort" id="category" ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);" title="{{item.category.description}}">{{item.category.description}}</div>
+    </div>
+</td>
+<td><input type="number" min="0" ng-model="item.size" required ng-animate="'animate'" class="itemsize"
+                                    style="width:50px"
+                                    ng-show="getEditMode(item)==true || itemtype=='new'" ng-change="setDirty(item)"/>
+
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);">{{item.size}}</div>
+</td>
+
+<td><div class="itemmaterialtype"><select ng-model="item.materials[0].type" required before
+                                          ng-options="opt as opt.name for opt in materialtypes track by opt.id"
+
+                                          ng-show="getEditMode(item)==true || itemtype=='new'" ng-change="setDirty(item)"></select>
+</div>
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);">{{item.materials[0].type.name}}</div>
+</td>
+<td>
+
+    <div style="display: flex"
+         ng-show="getEditMode(item)==true || itemtype=='new'" >
+        <input type="number" ng-model="workhours[item.id]" min="0" max="99" style="width:45px"
+               ng-change="changeWorkMinutes(item,workhours[item.id],workminutes[item.id]);setDirty(item);"
+               ng-init="workhours[item.id]=initWorkHours(item)"/>:
+
+        <input type="number" ng-model="workminutes[item.id]" min="0" max="59" style="width:45px"
+               ng-change="changeWorkMinutes(item,workhours[item.id],workminutes[item.id]);setDirty(item);"
+               ng-init="workminutes[item.id]=initWorkMinutes(item)"/>
+        <input ng-model="item.works[0].workMinutes" type="hidden"
+               ng-change="workhours[item.id]=initWorkHours(item);workminutes[item.id]=initWorkMinutes(item);setDirty(item);">
+    </div>
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);">{{item.works[0].workMinutes}} min.</div>
+</td>
+<td >
+    <div class="itemlinetariff" id="tariff" ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);">{{getTariff(item.works[0].tariff)}}</div>
+    <select ng-model="item.works[0].tariff" required
+            ng-options="worktariff as getTariff(worktariff) for worktariff in worktariffs track by worktariff.id"
+             ng-show="getEditMode(item)==true || itemtype=='new'" ng-change="setDirty(item)"/>
+
+</td>
+<td style="vertical-align: middle">
+    <div ng-show="getEditMode(item)==true || itemtype=='new'"><span before="content:'€'"><input type="number" ng-model="item.materials[0].price"
+                                                                      required
+                                                                      style="min-width:60px;max-width:70px" ng-change="setDirty(item)"/></span>
+    </div>
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);">{{item.materials[0].price | currency:"€"}}</div>
+</td>
+
+
+
+<td ng-show="showComment"><div class="itemcomment"><input type="text" id="commenttext" ng-model="item.comment"
+                                   ng-change="setDirty(item)"  ng-show="getEditMode(item)==true || itemtype=='new'"
+                                    />
+
+    <div ng-show="getEditMode(item)!=true && itemtype!='new'" ng-click="toggleEditMode(item);" class="itemtextshort" id="comment" title="{{item.comment}}">{{item.comment}}</div>
+</div>
+</td>
+<td><div></div>
+    <div class="itemterugreken"><input type="number" id="terugrekenwaarde" ng-model="item.terugrekenwaarde" ng-change="changeSize(item);" ng-show="getEditMode(item)==true || itemtype=='new'"/> </div>
+    <div class="itemlinetotal" id="total" ng-click="toggleEditMode(item);" >
+        {{ calculateTotal(item) | currency:"€"}}
+        {{ (calculateTotalWorkHours(item))}}:{{ calculateTotalWork(item)%60|numberFixedLen:2}} uur
+    </div>
+    </div>
+</td>

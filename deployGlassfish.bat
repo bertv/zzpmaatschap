@@ -1,0 +1,1 @@
+bees app:deploy -t glassfish4-full -a byerth/zzpmaatschap "C:\temp\git\byerth\target\zzpmaatschap-1.0.0.war"

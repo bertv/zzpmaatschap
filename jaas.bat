@@ -1,0 +1,1 @@
+bees config:set -a byerth/zzpmaatschap -R glassfish4.auth-realm.database=ExampleDS
