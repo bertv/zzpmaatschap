@@ -1,24 +1,19 @@
 package com.bv.zzpmaatschap.eao;
 
-import com.bv.zzpmaatschap.eao.inferface.ICompanyEAO;
 import com.bv.zzpmaatschap.eao.inferface.IUserEAO;
 import com.bv.zzpmaatschap.management.persistence.MultiTenantEntityManagerWrapper;
-import com.bv.zzpmaatschap.model.Company;
 import com.bv.zzpmaatschap.model.User;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.jpa.HibernateEntityManager;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @Stateless(name = "userEAO")
 public class UserEAO implements IUserEAO {
     @EJB(beanName = "mtem", beanInterface = MultiTenantEntityManagerWrapper.class)
     // @PersistenceContext
     private EntityManager em;
+
     @Override
     public void persist(User obj) {
         em.persist(obj);
@@ -31,7 +26,7 @@ public class UserEAO implements IUserEAO {
 
     @Override
     public User find(Class<User> entityClass, Object primaryKey) {
-        return em.find(entityClass,primaryKey);
+        return em.find(entityClass, primaryKey);
     }
 
     @Override

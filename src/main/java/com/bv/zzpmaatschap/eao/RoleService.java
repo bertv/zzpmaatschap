@@ -1,17 +1,13 @@
 package com.bv.zzpmaatschap.eao;
 
-import com.bv.zzpmaatschap.eao.inferface.IReportEAO;
 import com.bv.zzpmaatschap.eao.inferface.IRoleEAO;
 import com.bv.zzpmaatschap.management.persistence.MultiTenantEntityManagerWrapper;
-import com.bv.zzpmaatschap.model.Offer;
 import com.bv.zzpmaatschap.model.Role;
-import com.bv.zzpmaatschap.model.report.Report;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless(name = "roleEAO")

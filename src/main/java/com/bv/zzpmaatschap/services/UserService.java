@@ -5,7 +5,6 @@ import com.bv.zzpmaatschap.eao.inferface.IUserEAO;
 import com.bv.zzpmaatschap.management.persistence.MultiTenantEntityManagerWrapper;
 import com.bv.zzpmaatschap.model.Role;
 import com.bv.zzpmaatschap.model.User;
-import com.bv.zzpmaatschap.services.interfaces.IUserService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.jpa.HibernateEntityManager;
@@ -21,8 +20,8 @@ import java.util.List;
 
 
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-@Stateless(name="userService")
-public class UserService  {
+@Stateless(name = "userService")
+public class UserService {
     @EJB(beanName = "mtem", beanInterface = MultiTenantEntityManagerWrapper.class)
     // @PersistenceContext
     private EntityManager em;
@@ -94,7 +93,6 @@ public class UserService  {
         sb.append("<br/>");
         sb.append("Met vriendelijke groet,<br/>");
         sb.append("zzpmaatschap team<br/>");
-//        mailService.mail(sb.toString(), user.getEmail(), "Account aanvraag");
     }
 
     public Role findInactiveRole(List<String> roles) {

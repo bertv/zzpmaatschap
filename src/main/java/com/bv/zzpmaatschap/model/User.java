@@ -124,9 +124,7 @@ public class User implements Serializable {
     public void setPassword(String password) {
         try {
             this.password = createEncryptedPassword(password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
