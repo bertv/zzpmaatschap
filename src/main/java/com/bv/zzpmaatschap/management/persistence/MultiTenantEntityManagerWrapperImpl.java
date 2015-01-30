@@ -26,7 +26,6 @@ import java.util.*;
 public class MultiTenantEntityManagerWrapperImpl implements
         MultiTenantEntityManagerWrapper {
 
-    private static final String JNDI_ENV = "java:comp/env/persistence/primary";
     public static final String SKIP_FILTER = "skipFilter";
 
     @PersistenceContext//(type=PersistenceContextType.EXTENDED)
@@ -50,21 +49,11 @@ public class MultiTenantEntityManagerWrapperImpl implements
             hem = em.unwrap(HibernateEntityManager.class);
             hses = hem.getSession();
         }
-        List<Company> companies = new ArrayList<Company>();
-
-
         hses.disableFilter("tenantFilter");
         if (users == null) {
             users = getUsers(hses);
         }
-        org.hibernate.Query criteria;
 
-
-        criteria = hses.createQuery("select c from Company c");
-        criteria.setCacheable(true);
-        criteria.setCacheRegion("companies");
-
-        companies = criteria.list();
 
         Principal p = context.getCallerPrincipal();
         List<Integer> tenantIds = new ArrayList<>();
@@ -73,7 +62,7 @@ public class MultiTenantEntityManagerWrapperImpl implements
             extractAllCompanies(user.getCompanies(), tenantIds);
             if (tenantIds.isEmpty()) {
                 if (user.getDefaultCompany() != null) {
-                    tenantIds.add(Integer.valueOf(user.getDefaultCompany().getId().intValue()));
+                    tenantIds.add(user.getDefaultCompany().getId().intValue());
                 }
             }
         }
@@ -92,7 +81,7 @@ public class MultiTenantEntityManagerWrapperImpl implements
 
     private void extractAllCompanies(Collection<Company> companies, List<Integer> tenantIds) {
         for (Company company : companies) {
-            tenantIds.add(Integer.valueOf(company.getId().intValue()));
+            tenantIds.add(company.getId().intValue());
         }
     }
 
@@ -107,7 +96,7 @@ public class MultiTenantEntityManagerWrapperImpl implements
         HibernateEntityManager hem = em.unwrap(HibernateEntityManager.class);
         Session hses = hem.getSession();
         List<User> users = getUsers(hses);
-        if (!skipFilter || !getCurrentUserRole(users).equalsIgnoreCase("admin")) {
+        if (!skipFilter && !getCurrentUserRole(users).equalsIgnoreCase("admin")) {
             if (hses.getEnabledFilter("tenantFilter") == null) {
                 List<Integer> tenantIds = getTenantId(hses, users);
 
@@ -130,13 +119,15 @@ public class MultiTenantEntityManagerWrapperImpl implements
                     filter.setParameter("tenantId" + (2), tenantIds.get(1));
                     filter.setParameter("tenantId" + (3), tenantIds.get(2));
                     filter.setParameter("tenantId" + (4), tenantIds.get(0));
-                } else if (tenantIds.size() == 4) {
+                } else if (tenantIds.size() >= 4) {
 
                     filter.setParameter("tenantId" + (1), tenantIds.get(0));
                     filter.setParameter("tenantId" + (2), tenantIds.get(1));
                     filter.setParameter("tenantId" + (3), tenantIds.get(2));
                     filter.setParameter("tenantId" + (4), tenantIds.get(3));
-                } else {
+                }
+                else {
+
                     filter.setParameter("tenantId" + (1), 0);
                     filter.setParameter("tenantId" + (2), 0);
                     filter.setParameter("tenantId" + (3), 0);
@@ -195,7 +186,7 @@ public class MultiTenantEntityManagerWrapperImpl implements
                          ((TenantEntity) entity).setTenantId3(((TenantEntity) entity).getTenantId3() == null ? tenantIds.get(2) : ((TenantEntity) entity).getTenantId3());
                          ((TenantEntity) entity).setTenantId4(((TenantEntity) entity).getTenantId4() == null ? tenantIds.get(0) : ((TenantEntity) entity).getTenantId4());
 
-                     }else if(tenantIds.size()==4){
+                     }else if(tenantIds.size()>=4){
                          ((TenantEntity) entity).setTenantId1(((TenantEntity) entity).getTenantId1() == null ? tenantIds.get(0) : ((TenantEntity) entity).getTenantId1());
                          ((TenantEntity) entity).setTenantId2(((TenantEntity) entity).getTenantId2() == null ? tenantIds.get(1) : ((TenantEntity) entity).getTenantId2());
                          ((TenantEntity) entity).setTenantId3(((TenantEntity) entity).getTenantId3() == null ? tenantIds.get(2) : ((TenantEntity) entity).getTenantId3());

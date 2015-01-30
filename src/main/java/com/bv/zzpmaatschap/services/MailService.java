@@ -13,13 +13,14 @@ import java.util.Properties;
 public class MailService {
 
 
-    String SMTP_HOST_NAME = System.getProperty("SENDGRID_SMTP_HOST");
+    String SMTP_HOST_NAME = System.getProperty("SENDGRID_SMTP_HOST","smtp.sendgrid.net");
 
     public void mail(String content, String to, String subject) {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         Authenticator auth;
         Session mailSession;
+        System.out.println("SMTP host name: "+SMTP_HOST_NAME);
         props.put("mail.smtp.host", SMTP_HOST_NAME);
         props.put("mail.smtp.port", 587);
         props.put("mail.smtp.auth", "true");

@@ -462,7 +462,7 @@
         ng-disabled="checkUniqueness(offernew) || !validate(offernew.name)"><span class="icon-plus-sign"></span>Toevoegen
 </button>
 <button type="button" class="btn btn-small" ng-click="merge(offernew);"
-        ng-disabled="!validate(offernew.name) || checkSelectedOffer();"><span class="icon-ok"></span>Opslaan
+        ng-disabled="!validate(offernew.name) || checkSelectedOffer() || offernew.id==null;"><span class="icon-ok"></span>Opslaan
 </button>
 <button type="button" class="btn btn-small" ng-click="clear(offernew);"
         ng-disabled="!validate(offernew.name)"><span class="icon-refresh"></span>Leegmaken

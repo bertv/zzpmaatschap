@@ -128,7 +128,8 @@ function OfferContrl($scope, $offerservice,$modal) {
 //            }
 //        }
         if (theOffer != undefined && theOffer.id != null) {
-            theOffer.$save([], function () {
+            $offerservice.save(theOffer, function () {
+
                 $scope.load();
                 $scope.addAlert("Succesvol bijgewerkt.", 'success');
             }, function () {
@@ -138,7 +139,7 @@ function OfferContrl($scope, $offerservice,$modal) {
     }
     $scope.copy = function (offer) {
 
-        offer.$copy({id: offer.id, operation: 'copy'}, function () {
+        offer.$copy({operation: 'copy'}, function () {
             $scope.load();
             $scope.addAlert('De offerte is succesvol gekopiëerd.', 'success');
         }, function () {
@@ -148,7 +149,7 @@ function OfferContrl($scope, $offerservice,$modal) {
     $scope.remove = function (offer) {
         $scope.open(function(){
 
-            offer.$delete([], function () {
+            $offerservice.delete(offer, function () {
                 $scope.addAlert('De offerte is verwijderd', 'success')+
                 $scope.load();
             }, function (info) {

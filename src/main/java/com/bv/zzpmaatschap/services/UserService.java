@@ -32,8 +32,8 @@ public class UserService {
     @EJB(beanName = "userEAO", beanInterface = IUserEAO.class)
     IUserEAO userEAO;
 
-//    @EJB
-//    private MailService mailService;
+    @EJB
+    private MailService mailService;
 
     public User getCurrentUser(Principal principal) {
 
@@ -93,6 +93,7 @@ public class UserService {
         sb.append("<br/>");
         sb.append("Met vriendelijke groet,<br/>");
         sb.append("zzpmaatschap team<br/>");
+        mailService.mail(sb.toString(), user.getEmail(), "Account aanvraag");
     }
 
     public Role findInactiveRole(List<String> roles) {
@@ -164,7 +165,7 @@ public class UserService {
                 user = users.get(0);
                 String password = RandomPasswordGenerator.generate();
                 user.setPassword(password);
-//                mailService.mail("Beste " + user.getFirstname() + " " + user.getSurname() + ", <br/>Uw wachtwoord is hersteld naar: " + password + "<br/><br/>Met vriendelijke groet,<br/>het ZZP maatschap team", user.getEmail(), "ZZPMaatschap wachtwoord hersteld");
+                mailService.mail("Beste " + user.getFirstname() + " " + user.getSurname() + ", <br/>Uw wachtwoord is hersteld naar: " + password + "<br/><br/>Met vriendelijke groet,<br/>het ZZP maatschap team", user.getEmail(), "ZZPMaatschap wachtwoord hersteld");
                 return forgetMessage;
             }
         }

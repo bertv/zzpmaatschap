@@ -86,17 +86,17 @@ zzp.directive("intro", function(){
 
 zzp.factory('$offerservice', ['$resource', function ($resource) {
 
-    return $resource('../resteasy/offers/:id/:operation',
-        { id: '@id',operation:'@operation' }, {
+    return $resource('../resteasy/offers/:operation',
+        { operation:'@operation' }, {
             delete: {
 
-                method: 'DELETE',
-                params: {operation:'delete', id: '@id' },
+                method: 'POST',
+                params: {operation:'delete' },
                 isArray: false
             },
             copy:{
                 method: 'POST',
-                params: { id: '@id' },
+                params: {  },
                 isArray: false
             },
             save:{
@@ -113,7 +113,7 @@ zzp.factory('$offerservice', ['$resource', function ($resource) {
                 isArray:false
             },
             query:{
-                params: { operation:'query',id: '@id' },
+                params: { operation:'query' },
                 method: 'GET',
                 isArray:true
             }

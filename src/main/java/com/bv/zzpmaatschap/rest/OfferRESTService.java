@@ -3,14 +3,18 @@ package com.bv.zzpmaatschap.rest;
 import com.bv.zzpmaatschap.eao.inferface.ICompanyEAO;
 import com.bv.zzpmaatschap.eao.inferface.IItemService;
 import com.bv.zzpmaatschap.eao.inferface.IOfferEAO;
+import com.bv.zzpmaatschap.eao.inferface.IUserEAO;
 import com.bv.zzpmaatschap.model.Company;
 import com.bv.zzpmaatschap.model.Item;
 import com.bv.zzpmaatschap.model.Offer;
+import com.bv.zzpmaatschap.services.UserService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +29,8 @@ import java.util.List;
 @Stateless
 @Path("/offers")
 public class OfferRESTService {
-
+    @EJB(name = "userService")
+    UserService userService;
 
     @EJB(beanName = "offerEAO", beanInterface = IOfferEAO.class)
     IOfferEAO offerEAO;
@@ -87,10 +92,10 @@ public class OfferRESTService {
 //
 //    }
 
-    @DELETE
-    @Path("/{id:[0-9][0-9]*}/delete")
-    public void delete(@PathParam("id") long id) {
-        Offer attached = offerEAO.find(Offer.class, id);
+    @POST
+    @Path("/delete")
+    public void delete(Offer offer) {
+        Offer attached = offerEAO.find(Offer.class, offer.getId());
         for (Item itemToClear:attached.getItems()){
             itemToClear.setOffer(null);
             itemService.merge(itemToClear);
@@ -100,10 +105,10 @@ public class OfferRESTService {
     }
 
     @POST
-    @Path("/{id:[0-9][0-9]*}/copy")
+    @Path("/copy")
     @Consumes("application/json")
-    public void copyOffer(@PathParam("id") long id) {
-        Offer attached = offerEAO.find(Offer.class, id);
+    public void copyOffer(Offer offer) {
+        Offer attached = offerEAO.find(Offer.class, offer.getId());
         Offer newOffer = new Offer();
         attached.copy(newOffer);
 
@@ -114,8 +119,16 @@ public class OfferRESTService {
     @POST
     @Path("/save")
     @Consumes("application/json")
-    public void postPersist(Offer offer) {
+    public void postPersist(Offer offer, @Context HttpServletRequest request) {
         if (offer.getId() == null) {
+            if (offer.getCompany()==null){
+                Company company=userService.getCurrentUser(request.getUserPrincipal()).getDefaultCompany();
+                if (company!=null){
+                    offer.setCompany(company);
+                }else{
+                    offer.setCompany(companyEAO.getCompanies(offer.getId()).get(0));
+                }
+            }
             offerEAO.persist(offer);
             return;
         }

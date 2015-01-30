@@ -188,6 +188,7 @@ public class User implements Serializable {
     }
     public void transfer(CAccount cuser,List<Company> allCompanies) {
         this.companies.clear();
+        this.defaultCompany=null;
             for (CCompanyCheck companyCheck: cuser.getCompanyCheck()){
                 if (companyCheck.isCheck()){
                     for (Company company:allCompanies){

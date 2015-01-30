@@ -34,7 +34,10 @@ public class CompanyEAO implements ICompanyEAO {
 
     @Override
     public List<Company> getCompanies(Long offerId) {
-        return null;
+        javax.persistence.Query queryBuilder = em.createNamedQuery(
+                "getCompaniesForOffer");
+        queryBuilder.setParameter("id", offerId);
+        return queryBuilder.getResultList();
     }
 
     @Override

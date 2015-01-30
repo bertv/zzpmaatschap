@@ -152,7 +152,7 @@
             <div class="container" ng-controller="MainContrl">
 
 
-                {{getSelectedOffer()==undefined?'geen offerte geselecteerd':''}}
+                {{getSelectedOffer()==undefined?'Geen offerte geselecteerd. Ga terug en klik op de bewerk knop.':''}}
                 <div ng-controller="ItemContrl" ng-init="oneAtATime=true" ng-show="getSelectedOffer()!=null">
                     <script type="text/ng-template" id="itemDeleteConfirmation.html">
                         <div class="modal-header">

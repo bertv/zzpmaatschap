@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @XmlRootElement
 @Table(name="company",uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-@NamedQueries(value = {@NamedQuery(name = "getAllCompanies", query = "select c from Company c"), @NamedQuery(name = "hasUsers", query = "select count(u) from User u inner join u.companies d where d.id=:id")})
+@NamedQueries(value = {@NamedQuery(name = "getAllCompanies", query = "select c from Company c"), @NamedQuery(name = "hasUsers", query = "select count(u) from User u inner join u.companies d where d.id=:id"),@NamedQuery(name = "getCompaniesForOffer", query = "select c from Company c inner join c.offers o where o.id=:id")})
 public class Company implements Serializable {
     /**
      * Default value included to remove warning. Remove or modify at will. *
