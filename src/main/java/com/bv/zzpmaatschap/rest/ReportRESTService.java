@@ -55,7 +55,6 @@ public class ReportRESTService {
     @Path("/delete")
     public String delete(@QueryParam("reportid") Long reportid) {
         Report report = reportEAO.find(Report.class, reportid);
-
         reportEAO.remove(report);
         return "ok";
     }
@@ -66,75 +65,55 @@ public class ReportRESTService {
     public File generate(@QueryParam("reportid") Long reportid, @QueryParam("offerid") Long offerId) {
 
         List<Report> reports = reportFileService.getReports(null, offerId);
-        Report foundReport = null;
-        for (Report report : reports) {
-            if (report.getId().equals(reportid)) {
-                foundReport = report;
-                break;
-            }
-
-        }
+        Report foundReport = findReportWithId(reportid, reports);
         if (foundReport != null) {
             Offer offer = foundReport.getOffer();
-            File file = null;//reportFileService.toTempFile(foundReportFile);
+            File file = null;
             OutputStream os = null;
             try {
                 file = File.createTempFile("bbf", "fff");
                 os = new FileOutputStream(file);
             } catch (IOException e) {
-
+                saveError(foundReport, e);
+                reportEAO.merge(foundReport);
+                return null;
             }
             String message = reportGenerator.generateReport(os, foundReport, offer);
             if (message == null) {
                 Response.ResponseBuilder response = Response.ok(file);
                 response.header("Content-Disposition", "attachment; filename=" + foundReport.getFilename() + ".pdf");
-                return file;
-            } else {
-                return null;
+                saveError(foundReport, "Succesvol gegeneerd");
+            }else{
+                saveError(foundReport,message);
             }
-            //return response.build();
-        } else {
-            Response.ResponseBuilder response = Response.status(Response.Status.BAD_REQUEST);
-            return null;
-        }
 
+            reportEAO.merge(foundReport);
+            return file;
+
+        }
+        saveError(foundReport, "Report niet gevonden");
+        reportEAO.merge(foundReport);
+        return null;
 
     }
 
+    private void saveError(Report foundReport, String s) {
+        foundReport.setStatus(s);
+    }
 
-//    @POST
-//    @Path("/pricelist")
-//    @Consumes("multipart/form-data")
-//    public Response uploadFile(MultipartFormDataInput input) {
-//
-//        String fileName = "";
-//
-//        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
-//        List<InputPart> inputParts = uploadForm.get("uploadedFile");
-//
-//        for (InputPart inputPart : inputParts) {
-//
-//            try {
-//
-//                MultivaluedMap<String, String> header = inputPart.getHeaders();
-//
-//
-//                //convert the uploaded file to inputstream
-//                InputStream inputStream = inputPart.getBody(InputStream.class, null);
-//
-//                System.out.println(header);
-//
-//
-//                System.out.println("Done");
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//
-//        return Response.status(200)
-//                .entity("uploadFile is called, Uploaded file name : " + fileName).build();
-//
-//    }
+    public Report findReportWithId(Long reportid, List<Report> reports) {
+        for (Report report : reports) {
+            if (report.getId().equals(reportid)) {
+                return report;
+
+            }
+
+        }
+        return null;
+    }
+
+    private void saveError(Report report, Exception e) {
+        saveError(report, e.getMessage());
+    }
+
 }

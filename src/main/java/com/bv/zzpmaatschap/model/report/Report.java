@@ -28,8 +28,8 @@ public class Report implements Serializable {
 
     private String filename;
 
-    @Enumerated(EnumType.STRING)
-    private ReportStatus status;
+
+    private String status;
 
     @XmlTransient
     @JsonIgnore
@@ -56,11 +56,11 @@ public class Report implements Serializable {
     }
 
 
-    public ReportStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(ReportStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

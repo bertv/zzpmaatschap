@@ -84,6 +84,13 @@ public class OfferRESTService {
 
     }
 
+    public void setTenants(Offer offer,Company company){
+        offer.setTenantId1(company.getId().intValue());
+        offer.setTenantId2(company.getId().intValue());
+        offer.setTenantId3(company.getId().intValue());
+        offer.setTenantId4(company.getId().intValue());
+    }
+
 //    @POST
 //    @Path("/save")
 //    @Consumes("application/json")
@@ -120,15 +127,19 @@ public class OfferRESTService {
     @Path("/save")
     @Consumes("application/json")
     public void postPersist(Offer offer, @Context HttpServletRequest request) {
+        Company company;
         if (offer.getId() == null) {
             if (offer.getCompany()==null){
-                Company company=userService.getCurrentUser(request.getUserPrincipal()).getDefaultCompany();
+                company=userService.getCurrentUser(request.getUserPrincipal()).getDefaultCompany();
                 if (company!=null){
                     offer.setCompany(company);
                 }else{
                     offer.setCompany(companyEAO.getCompanies(offer.getId()).get(0));
                 }
+            }else{
+                company=offer.getCompany();
             }
+            setTenants(offer,company);
             offerEAO.persist(offer);
             return;
         }

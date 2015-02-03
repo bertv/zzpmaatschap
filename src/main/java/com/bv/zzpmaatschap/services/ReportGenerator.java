@@ -3,7 +3,6 @@ package com.bv.zzpmaatschap.services;
 import com.bv.zzpmaatschap.model.Offer;
 import com.bv.zzpmaatschap.model.report.Report;
 import com.bv.zzpmaatschap.model.report.ReportParameter;
-import com.bv.zzpmaatschap.model.report.ReportStatus;
 import net.sf.jasperreports.engine.*;
 
 import javax.annotation.Resource;
@@ -24,7 +23,7 @@ public class ReportGenerator {
 
     public String generateReport(OutputStream outputStream, Report reportfile, Offer offer) {
 
-        String message = null;
+        String message = "Onbekende fout";
         if (offer.getId() != null) {
             try {
                 Map<String, Object> jasperParameter = new HashMap<String, Object>();
@@ -32,9 +31,9 @@ public class ReportGenerator {
                     jasperParameter.put(parameter.getName(), parameter.getValue());
 
                 }
-                jasperParameter.put("p_offer_id", Integer.valueOf(offer.getId().intValue()));
+                jasperParameter.put("p_offer_id", offer.getId().intValue());
                 jasperParameter.put(JRParameter.REPORT_LOCALE, new Locale("nl", "NL"));
-                JasperPrint jasperPrint = null;
+                JasperPrint jasperPrint;
                 if (reportfile.getTemplateReport() != null) {
 
                     JasperReport jasperReport = JasperCompileManager
@@ -53,26 +52,22 @@ public class ReportGenerator {
                 }
                 JasperExportManager.exportReportToPdfStream(jasperPrint,
                         outputStream);
-                reportfile.setStatus(ReportStatus.ok);
-                // JasperExportManager.exportReportToPdfFile(jasperPrint,
-                // "D:\\projects\\zzpmaatschap\\reports\\sample_report.pdf");
-
-
             } catch (JRException e) {
-                reportfile.setStatus(ReportStatus.error);
+
                 message = e.getMessage();
                 e.printStackTrace();
 
             } catch (SQLException e) {
-                reportfile.setStatus(ReportStatus.error);
+
                 message = e.getMessage();
-            } catch (Exception e){
-                message=e.getMessage();
+                e.printStackTrace();
+            } catch (Exception e) {
+                message = e.getMessage();
+                e.printStackTrace();
             }
         } else {
             message = "Geen offerte geselecteerd.";
         }
-        reportfile.setStatus(ReportStatus.error);
 
         return message;
     }

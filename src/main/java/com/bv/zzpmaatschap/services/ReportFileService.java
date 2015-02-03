@@ -60,8 +60,6 @@ public class ReportFileService implements Serializable {
                         } else {
                             value = ((JRParameter) list.get(i)).getDescription();
                         }
-
-
                         ReportParameter reportParameter = new ReportParameter();
                         reportParameter.setReport(report);
                         reportParameter.setName(name);
@@ -74,6 +72,8 @@ public class ReportFileService implements Serializable {
                 reportEAO.merge(report);
             }
         } catch (JRException e) {
+            report.setStatus(e.getMessage());
+            reportEAO.merge(report);
             e.printStackTrace();
         }
 
@@ -82,10 +82,7 @@ public class ReportFileService implements Serializable {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Report registerReportFile(String filename, InputStream inputStream, Offer offer, boolean isTemplate) throws IOException {
-
-
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
         int nRead;
         byte[] data = new byte[16384];
 
@@ -99,7 +96,7 @@ public class ReportFileService implements Serializable {
             report.setCompiledReport(buffer.toByteArray());
         }
         report.setOffer(offer);
-        report.setStatus(ReportStatus.ok);
+        report.setStatus("succesvol");
         report.setFilename(filename);
         offer.getReports().add(report);
         reportEAO.persist(report);
