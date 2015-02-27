@@ -280,7 +280,7 @@
                                     <form id="itemForm2" name="itemForm2">
                                         <tfoot>
 
-                                        <tr ng-include="'itemadd.html'" ng-repeat="item in itemnew" ng-init="itemtype='new'">
+                                        <tr ng-include="'itemadd.html'" ng-repeat="item in itemnew" ng-init="makenew(item);itemtype='new'">
                                         </tr>
 
                                         </tfoot>

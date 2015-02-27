@@ -286,24 +286,24 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
     }
 
     $scope.materialtypes = [
-        {id: 1, name: 'per stuk'},
-        {id: 2, name: 'per m'},
-        {id: 3, name: 'per m2'},
-        {id: 4, name: 'per m3'},
-        {id: 5, name: 'per cm'},
-        {id: 6, name: 'per cm2'},
-        {id: 7, name: 'per cm3'},
-        {id: 8, name: 'per mm'},
-        {id: 9, name: 'per doos'},
-        {id: 10, name: 'per plaat'},
-        {id: 11, name: 'per emmer'},
-        {id: 12, name: 'per kan'},
-        {id: 13, name: 'per pak'},
-        {id: 14, name: 'per fles'},
-        {id: 15, name: 'per rol'},
-        {id: 16, name: 'per zak'},
-        {id: 17, name: 'per flacon'},
-        {id: 18, name: 'per bus'}
+        {id: 1, name: 'stuk'},
+        {id: 2, name: 'm'},
+        {id: 3, name: 'm2'},
+        {id: 4, name: 'm3'},
+        {id: 5, name: 'cm'},
+        {id: 6, name: 'cm2'},
+        {id: 7, name: 'cm3'},
+        {id: 8, name: 'mm'},
+        {id: 9, name: 'doos'},
+        {id: 10, name: 'plaat'},
+        {id: 11, name: 'emmer'},
+        {id: 12, name: 'kan'},
+        {id: 13, name: 'pak'},
+        {id: 14, name: 'fles'},
+        {id: 15, name: 'rol'},
+        {id: 16, name: 'zak'},
+        {id: 17, name: 'flacon'},
+        {id: 18, name: 'bus'}
     ];
     $scope.loadAll = function () {
         return $itemservice.query([], function () {
@@ -495,7 +495,7 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
         return "" + total;
     }
     $scope.getTariff = function (tariff) {
-        return '€' + tariff.value + ' per uur';
+        return '€' + tariff.value + '';
 
     }
 
@@ -534,7 +534,7 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
             angular.copy(fromAll, item);
             item.id = oldId;
             item.offer = $scope.getSelectedOffer();
-            //item.description = item.description + '(kopie)';
+
             item.works[0].id = oldWorkId;
             item.materials[0].id = oldMaterialId;
             item.popularity = 0;
@@ -706,9 +706,12 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
     };
+    $scope.makenew =function(item){
+        item.size=1;
+    }
 }
 ;
 
 ItemContrl.$inject = ['$scope', '$itemservice', '$categoryservice', '$filter', '$modal', '$log', '$tariffservice'];
 
-
+zzp.controller( 'ItemCtrl',ItemContrl);

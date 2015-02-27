@@ -44,7 +44,6 @@ function OfferContrl($scope, $offerservice,$modal) {
     };
 
     $scope.clear = function (new_offer) {
-        console.info(new_offer);
         $scope.offernew={id:null,name:null};
 
     }

@@ -92,7 +92,7 @@
 
 </td>
 <td style="vertical-align: middle">
-    <div ng-show="getEditMode(item)==true || itemtype=='new'"><span before="content:'€'"><input type="number" ng-model="item.materials[0].price"
+    <div ng-show="getEditMode(item)==true || itemtype=='new'"><span before="content:'€'"><input type="number" ng-model="item.materials[0].price" step="any"
                                                                       required
                                                                       style="min-width:60px;max-width:70px" ng-change="setDirty(item)"/></span>
     </div>

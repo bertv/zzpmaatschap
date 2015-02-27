@@ -7,7 +7,7 @@ select {color:black;height:auto;padding-bottom:0px;padding-top: 0px;}
 }
 
 .category,#cattext{
-    max-width: 130px;
+    max-width: 160px;
 }
 .itemlinetotal,.itemlinetotal#total,.itemlinetotal#totals{
     color:black;
@@ -27,7 +27,7 @@ select {color:black;height:auto;padding-bottom:0px;padding-top: 0px;}
     width:200px;
 }
 .itemtextshort#category{
-    width:130px;
+    width:160px;
 }
 .itemtextshort{
     overflow: hidden;
