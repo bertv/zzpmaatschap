@@ -44,12 +44,9 @@ function OfferContrl($scope, $offerservice,$modal) {
     };
 
     $scope.clear = function (new_offer) {
+        console.info(new_offer);
+        $scope.offernew={id:null,name:null};
 
-        angular.forEach(new_offer, function (value, key) {
-            if (key != 'id') {
-                new_offer[key] = null;
-            }
-        });
     }
     $scope.save = function (offername) {
         var offer = new $offerservice();

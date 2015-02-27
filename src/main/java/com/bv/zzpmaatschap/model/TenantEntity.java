@@ -10,9 +10,14 @@ import javax.persistence.Column;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
 @MappedSuperclass
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso({Offer.class})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId1", type = "integer"), @ParamDef(name = "tenantId2", type = "integer"), @ParamDef(name = "tenantId3", type = "integer"), @ParamDef(name = "tenantId4", type = "integer")})
 @Filters(@Filter(name = "tenantFilter", condition = "tenant_id1 in (:tenantId1,:tenantId2,:tenantId3,:tenantId4) or tenant_id2 in (:tenantId1,:tenantId2,:tenantId3,:tenantId4) or tenant_id3 in (:tenantId1,:tenantId2,:tenantId3,:tenantId4) or tenant_id4 in (:tenantId1,:tenantId2,:tenantId3,:tenantId4)"))

@@ -86,6 +86,7 @@ zzp.directive("intro", function(){
 
 zzp.factory('$offerservice', ['$resource', function ($resource) {
 
+
     return $resource('../resteasy/offers/:operation',
         { operation:'@operation' }, {
             delete: {
