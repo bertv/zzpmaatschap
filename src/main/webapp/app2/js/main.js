@@ -135,6 +135,9 @@ zzp.factory('$offeradminservice', ['$resource', function ($resource) {
             saveTenant:{
                 method: 'POST',
                 isArray:false
+            },removeold:{
+                method:'GET'
+
             }
 
         });

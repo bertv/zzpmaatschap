@@ -146,7 +146,7 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
     $scope.worktariffs = {};
     $scope.items = {};
     $scope.allitems = {};
-    $scope.waiting=false;
+    $scope.waiting=true;
     $scope.changeWorkMinutes = function (item, hours, minutes) {
         if (item.works[0] != undefined && hours != undefined && minutes != undefined) {
 
@@ -275,10 +275,10 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
         if (offer != undefined) {
 
             items = $itemservice.query({offerid: offer.id}, function () {
-
+                $scope.waiting=false;
             }, function () {
                 $scope.$parent.selectTheOffer(undefined);
-
+                $scope.waiting=false;
             });
 
         }
@@ -307,9 +307,9 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
     ];
     $scope.loadAll = function () {
         return $itemservice.query([], function () {
-
+            $scope.waiting=false;
         }, function () {
-
+            $scope.waiting=false;
         });
 
     }
@@ -708,6 +708,8 @@ function ItemContrl($scope, $itemservice, $categoryservice, $filter, $modal, $lo
     };
     $scope.makenew =function(item){
         item.size=1;
+        item.materials[0].type = $scope.materialtypes[0];
+
     }
 }
 ;

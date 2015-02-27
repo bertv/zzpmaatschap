@@ -149,7 +149,12 @@
             <div class="container">
 
                 <div ng-controller="OfferAdminContrl" ng-init="getAll();">
-
+                    <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
+                        {{alert.msg}}
+                    </alert>
+                    <button class="btn btn-primary" ng-click="removeoldoffers();">verwijder offertes ouder dan:</button>
+                    <input type="text" name="dateold" required ng-model="offeradmin.dateold"/>formaat: 2014-12-01
+                    <br/>
                     <div class="table-responsive">
 
                         <table class="table table-bordered table-hover table-condensed">
@@ -198,9 +203,7 @@
                             </tbody>
                         </table>
 
-                        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
-                            {{alert.msg}}
-                        </alert>
+
                     </div>
 
 

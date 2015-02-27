@@ -33,7 +33,7 @@
     <script src="js/config.js"></script>
     <script src="js/skel.min.js"></script>
     <script src="js/skel-panels.min.js"></script>
-
+    <link rel="stylesheet" href="css/zzp.css"/>
 
     <!-- 	 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
@@ -160,9 +160,10 @@
 </script>
 
 <div ng-controller="OfferContrl" ng-init="getSelectedOffer();">
+<div class="table-responsive-after" ng-show="waiting">Even geduld a.u.b.</div>
 <div class="table-responsive">
 
-    <table class="table table-bordered table-hover table-condensed">
+    <table class="table table-bordered table-hover table-condensed" ng-show="!waiting">
         <thead>
         <tr>
 
@@ -216,12 +217,7 @@
         <tr>
             <td>Projectnaam</td>
             <td>
-                <!-- <form name="newFeed">
-                     <input name="nm" type="text" required ng-model="offernew.name"
-                            ui-validate="{myerr : 'validate($value)'}"/>
 
-                     <span class="error" ng-show="newFeed.nm.$error.myerr">Lengte mag niet meer dan 25 zijn.</span>
-                 </form>-->
                 <input type="text" name="nm" required ng-model="offernew.name"/>
                 <span class="error"
                       ng-show="!validate(offernew.name);">Dit veld is verplicht. Maximale lengte is 200.</span>

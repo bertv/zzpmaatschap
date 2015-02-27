@@ -3,6 +3,7 @@ window._skel_config = {
 };
 
 function OfferAdminContrl($scope, $companyservice, $offeradminservice) {
+    $scope.offeradmin={};
     $scope.alerts = [
 
     ];
@@ -22,11 +23,20 @@ function OfferAdminContrl($scope, $companyservice, $offeradminservice) {
         }, function () {
         });
     }
+    $scope.removeoldoffers = function () {
+        $offeradminservice.removeold({operation: 'removeold'},$scope.offeradmin.dateold, function () {
+            $scope.addAlert('Proces gestart...','success');
+        }, function () {
+            $scope.addAlert('Er is een fout opgetreden.','error');
+        });
 
+        return offers;
+    }
     $scope.getAllOffers = function (callBackFunction) {
         var offers = $offeradminservice.tenantoffers({operation: 'tenant'}, function () {
 
         }, function () {
+            $scope.addAlert('Er is een fout opgetreden.','error');
         });
 
         return offers;

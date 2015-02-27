@@ -2,6 +2,7 @@ function OfferContrl($scope, $offerservice,$modal) {
     $scope.alerts = [
 
     ];
+    $scope.waiting=true;
     $scope.offernew = {};
     $scope.addAlert = function (message, type) {
         $scope.alerts.length = 0;
@@ -57,7 +58,7 @@ function OfferContrl($scope, $offerservice,$modal) {
             $scope.load();
 
         }, function (info) {
-            $scope.addAlert("Er is een fout opgetreden. De wijzigingen zijn niet opgeslagen.", 'error');
+            $scope.addAlert("Er is een fout opgetreden. Mogelijk bestaat de offertenaam al. De wijzigingen zijn niet opgeslagen.", 'error');
         });
 
     }
@@ -86,6 +87,7 @@ function OfferContrl($scope, $offerservice,$modal) {
 
     $scope.loading = function () {
         var offers = $offerservice.query([], function () {
+            $scope.waiting=false;
             var selectedOffer = $scope.$parent.getSelectedOffer();
             if (selectedOffer != undefined) {
                 for (var i = 0; i < offers.length; i++) {
@@ -98,6 +100,9 @@ function OfferContrl($scope, $offerservice,$modal) {
                 }
             }
 
+        },function(){
+            $scope.addAlert("Er is een fout opgetreden bij het laden van offers.", 'error');
+            $scope.waiting=false;
         });
 
 
@@ -111,25 +116,14 @@ function OfferContrl($scope, $offerservice,$modal) {
     $scope.merge = function (offernew) {
 
         var theOffer=offernew;
-//        for (var i = 0; i < $scope.offers.length; i++) {
-//
-//            if (offernew.id == $scope.offers[i].id) {
-//
-//                try {
-//                    angular.copy(offernew, $scope.offers[i]);
-//                } catch (e) {
-//                }
-//                theOffer = $scope.offers[i];
-//                break;
-//            }
-//        }
+
         if (theOffer != undefined && theOffer.id != null) {
             $offerservice.save(theOffer, function () {
 
                 $scope.load();
-                $scope.addAlert("Succesvol bijgewerkt.", 'success');
+                $scope.addAlert("Succesvol offerte opgeslagen.", 'success');
             }, function () {
-                $scope.addAlert("Er is een fout opgetreden tijdens het bijwerken.", 'error');
+                $scope.addAlert("Er is een fout opgetreden tijdens het opslaan. Mogelijk bestaat de offertenaam al.", 'error');
             });
         }
     }
@@ -139,7 +133,7 @@ function OfferContrl($scope, $offerservice,$modal) {
             $scope.load();
             $scope.addAlert('De offerte is succesvol gekopiëerd.', 'success');
         }, function () {
-            $scope.addAlert("Er is een fout opgetreden. De wijzigingen zijn niet opgeslagen.", 'error');
+            $scope.addAlert("Er is een fout opgetreden bij het kopieren. De wijzigingen zijn niet opgeslagen.", 'error');
         });
     }
     $scope.remove = function (offer) {

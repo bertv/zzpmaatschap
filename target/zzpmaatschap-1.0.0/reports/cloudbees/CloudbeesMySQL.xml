@@ -6,7 +6,7 @@
 		<connectionParameter name="Url"><![CDATA[jdbc:mysql://159.253.3.10/zzpmaatschap2]]></connectionParameter>
 		<connectionParameter name="JDBCDriver"><![CDATA[com.mysql.jdbc.Driver]]></connectionParameter>
 		<connectionParameter name="Database"><![CDATA[]]></connectionParameter>
-		<connectionParameter name="Password"><![CDATA[]]></connectionParameter>
-		<connectionParameter name="Username"><![CDATA[]]></connectionParameter>
+		<connectionParameter name="Password"><![CDATA[bert2014]]></connectionParameter>
+		<connectionParameter name="Username"><![CDATA[bert]]></connectionParameter>
 	</iReportConnection>
 </iReportConnectionSet>

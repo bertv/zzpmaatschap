@@ -15,8 +15,13 @@ import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * JAX-RS Example
@@ -61,6 +66,24 @@ public class OfferRESTService {
     public List<OfferTenant> allTenantOffers() {
         return createNaked(offerEAO.getAllOffersNoRestrictions());
     }
+    @RolesAllowed("admin")
+    @GET
+    @Path("/removeold")
+    @Produces("application/json")
+    public String deleteOld(String date) {
+        try {
+            DateFormat instance=SimpleDateFormat.getTimeInstance(DateFormat.SHORT, Locale.ENGLISH);
+            Date olddate=instance.parse(date);
+            for (Offer offer:offerEAO.getAllOffersNoRestrictions()){
+                if (offer.getCreationDate().before(olddate)){
+                    offerEAO.remove(offer);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
     private List<OfferTenant> createNaked(List<Offer> allOffers) {
         List<Company> allCompanies=companyEAO.getAllCompanies();
         List<OfferTenant> offerNakedList=new ArrayList<>();
@@ -91,13 +114,6 @@ public class OfferRESTService {
         offer.setTenantId4(company.getId().intValue());
     }
 
-//    @POST
-//    @Path("/save")
-//    @Consumes("application/json")
-//    public void postMerge(Offer offer) {
-//        offerEAO.merge(offer);
-//
-//    }
 
     @POST
     @Path("/delete")

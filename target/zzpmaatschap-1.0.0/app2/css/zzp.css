@@ -18,16 +18,16 @@ select {color:black;height:auto;padding-bottom:0px;padding-top: 0px;}
 }
 
 .itemlinetariff#tariff{
-    min-width:90px;
+    min-width:60px;
 }
 .itemdescription{
     display:flex;
 }
 .itemtextshort#description{
-    width:200px;
+    width:220px;
 }
 .itemtextshort#category{
-    width:160px;
+    width:180px;
 }
 .itemtextshort{
     overflow: hidden;
