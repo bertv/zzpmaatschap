@@ -121,9 +121,6 @@
                 </header>
 
 
-
-
-
             </div>
         </div>
     </div>
@@ -152,9 +149,15 @@
                     <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">
                         {{alert.msg}}
                     </alert>
-                    <button class="btn btn-primary" ng-click="removeoldoffers();">verwijder offertes ouder dan:</button>
-                    <input type="text" name="dateold" required ng-model="offeradmin.dateold"/>formaat: 2014-12-01
+                    <h1>Langdurige processen</h1>
+
+
+                    <button class="btn btn-primary" ng-click="removeoldoffers();">Verwijder offertes ouder dan</button>
+                    <input type="text" name="dateold" required ng-model="offeradmin.dateold"/>formaat: 01/01/14
+                    <br/>Waarschuwing: voer uit in de nacht.
                     <br/>
+                    <h1>Offertes bewerken</h1>
+
                     <div class="table-responsive">
 
                         <table class="table table-bordered table-hover table-condensed">
@@ -171,31 +174,37 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="offer in offers">
-                                <td><button class="btn btn-primary" ng-click="save(offer)">opslaan</button></td>
+                                <td>
+                                    <button class="btn btn-primary" ng-click="save(offer)">opslaan</button>
+                                </td>
                                 <td>{{offer.id}}</td>
                                 <td>{{offer.name}}</td>
                                 <td style="min-width: 200px">
-                                    <select ng-model="offer.tenantId1" required class="offeradmin" style="min-width: 200px"
+                                    <select ng-model="offer.tenantId1" required class="offeradmin"
+                                            style="min-width: 200px"
                                             ng-options="company as company.name for company in companies track by company.id"
-                                            ng-show="offer.tenantId1!=null" />
+                                            ng-show="offer.tenantId1!=null"/>
 
                                 </td>
                                 <td style="min-width: 200px">
-                                    <select ng-model="offer.tenantId2" required class="offeradmin" style="min-width: 200px"
+                                    <select ng-model="offer.tenantId2" required class="offeradmin"
+                                            style="min-width: 200px"
                                             ng-options="company as company.name for company in companies track by company.id"
                                             ng-show="offer.tenantId2!=null"/>
 
                                 </td>
                                 <td style="min-width: 200px">
-                                    <select ng-model="offer.tenantId3" required class="offeradmin" style="min-width: 200px"
+                                    <select ng-model="offer.tenantId3" required class="offeradmin"
+                                            style="min-width: 200px"
                                             ng-options="company as company.name for company in companies track by company.id"
                                             ng-show="offer.tenantId3!=null"/>
 
                                 </td>
                                 <td style="min-width: 200px">
-                                    <select ng-model="offer.tenantId4" required class="offeradmin" style="min-width: 200px"
+                                    <select ng-model="offer.tenantId4" required class="offeradmin"
+                                            style="min-width: 200px"
                                             ng-options="company as company.name for company in companies track by company.id"
-                                            ng-show="offer.tenantId4!=null" />
+                                            ng-show="offer.tenantId4!=null"/>
 
                                 </td>
                             </tr>
@@ -207,12 +216,12 @@
                     </div>
 
 
-                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 </div>
 </div>

@@ -67,20 +67,18 @@ public class OfferRESTService {
         return createNaked(offerEAO.getAllOffersNoRestrictions());
     }
     @RolesAllowed("admin")
-    @GET
+    @POST
     @Path("/removeold")
     @Produces("application/json")
     public String deleteOld(String date) {
         try {
-            DateFormat instance=SimpleDateFormat.getTimeInstance(DateFormat.SHORT, Locale.ENGLISH);
+            DateFormat instance=SimpleDateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
             Date olddate=instance.parse(date);
-            for (Offer offer:offerEAO.getAllOffersNoRestrictions()){
-                if (offer.getCreationDate().before(olddate)){
-                    offerEAO.remove(offer);
-                }
-            }
+
+            offerEAO.removeOldOffers(olddate,itemService);
         } catch (Exception e) {
             e.printStackTrace();
+            return "error";
         }
         return "success";
     }

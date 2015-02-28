@@ -136,7 +136,7 @@ zzp.factory('$offeradminservice', ['$resource', function ($resource) {
                 method: 'POST',
                 isArray:false
             },removeold:{
-                method:'GET'
+                method:'POST'
 
             }
 

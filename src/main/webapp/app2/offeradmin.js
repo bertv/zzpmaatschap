@@ -24,13 +24,12 @@ function OfferAdminContrl($scope, $companyservice, $offeradminservice) {
         });
     }
     $scope.removeoldoffers = function () {
-        $offeradminservice.removeold({operation: 'removeold'},$scope.offeradmin.dateold, function () {
+        var olddate=$scope.offeradmin.dateold;
+        $offeradminservice.removeold({operation: 'removeold'},olddate, function () {
             $scope.addAlert('Proces gestart...','success');
         }, function () {
             $scope.addAlert('Er is een fout opgetreden.','error');
         });
-
-        return offers;
     }
     $scope.getAllOffers = function (callBackFunction) {
         var offers = $offeradminservice.tenantoffers({operation: 'tenant'}, function () {
