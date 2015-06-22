@@ -1,0 +1,1 @@
+pscp root@159.253.3.10:/root/transfer/* backup.sql
