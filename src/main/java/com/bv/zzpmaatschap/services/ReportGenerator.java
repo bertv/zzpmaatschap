@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
@@ -22,10 +23,11 @@ public class ReportGenerator {
     private DataSource datasource;
 
     public String generateReport(OutputStream outputStream, Report reportfile, Offer offer) {
-
+Connection connection=null;
         String message = "Onbekende fout";
         if (offer.getId() != null) {
             try {
+                connection=datasource.getConnection();
                 Map<String, Object> jasperParameter = new HashMap<String, Object>();
                 for (ReportParameter parameter : reportfile.getParameters()) {
                     jasperParameter.put(parameter.getName(), parameter.getValue());
@@ -40,7 +42,7 @@ public class ReportGenerator {
                             .compileReport(new ByteArrayInputStream(reportfile.getTemplateReport()));
                     jasperPrint = JasperFillManager
                             .fillReport(jasperReport,
-                                    jasperParameter, datasource.getConnection());
+                                    jasperParameter, connection);
 
 
                 } else {
@@ -52,23 +54,28 @@ public class ReportGenerator {
                 }
                 JasperExportManager.exportReportToPdfStream(jasperPrint,
                         outputStream);
-            } catch (JRException e) {
-
-                message = e.getMessage();
-                e.printStackTrace();
-
-            } catch (SQLException e) {
-
-                message = e.getMessage();
-                e.printStackTrace();
             } catch (Exception e) {
                 message = e.getMessage();
                 e.printStackTrace();
+                handleException(connection);
+            }
+            finally {
+                handleException(connection);
             }
         } else {
             message = "Geen offerte geselecteerd.";
         }
 
         return message;
+    }
+
+    public void handleException(Connection connection) {
+        if (connection!=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@ inner join item_materialitem im on mi.id=im.materials_id]]>
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[1099]]></defaultValueExpression>
 	</parameter>
+	<parameter name="p_test" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select o.location offer_location, o.name offer_name, i.description item_desc,c.description cat_description,i.size item_amount,mi.price mi_price, mi.name mi_desc, mi.quantity mi_quantity,qu.name qu_name, wi.description wi_desc, wi.workMinutes wi_minutes, wt.value wt_value from item i
 inner join offer o on o.id=i.offer_id
@@ -157,6 +158,10 @@ order by i.orderNumber,i.id]]>
 			<textField>
 				<reportElement x="70" y="0" width="70" height="15" uuid="72d18ab0-0ad5-4491-bc2b-09c60fd80d28"/>
 				<textFieldExpression><![CDATA[$F{offer_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="23" width="100" height="20" uuid="8b9f34fc-bafb-489a-ad52-f96807cf4ccd"/>
+				<textFieldExpression><![CDATA[$P{p_test}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

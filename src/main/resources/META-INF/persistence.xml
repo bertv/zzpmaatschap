@@ -13,7 +13,7 @@
       <properties>
          <!-- Properties for Hibernate -->
 
-         <property name="hibernate.hbm2ddl.auto" value="validate" />
+        <!-- <property name="hibernate.hbm2ddl.auto" value="validate" />-->
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
          <!-- <property name="hibernate.connection.release_mode" value="after_transaction" />-->
@@ -28,7 +28,7 @@
          <!-- <property name="hibernate.cache.use_structured_entries" value="true"/>-->
           <property name="hibernate.cache.use_second_level_cache" value="true"/>
           <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
-
+          <property name="hibernate.default_schema" value="zzpmaatschap2"/>
          <!-- <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />-->
       </properties>
    </persistence-unit>
